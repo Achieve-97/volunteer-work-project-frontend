@@ -204,7 +204,7 @@ jQuery(document).ready(function($) {
 
 function getUserMe(){
 	var settings = {
-		"url": "https://volunteering.store/mypage/profiles",
+		"url": "https://api.volunteering.store/mypage/profiles",
 		"method": "GET",
 		"timeout": 0,
 		"headers": {
@@ -223,7 +223,7 @@ function getUserMe(){
 
 function signout(){
 	var settings = {
-		"url": "https://volunteering.store/users/signout",
+		"url": "https://api.volunteering.store/users/signout",
 		"method": "POST",
 		"timeout": 0,
 		"headers": {
