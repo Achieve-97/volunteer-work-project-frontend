@@ -229,7 +229,7 @@
                     const e = obj[i];
                     const commentId = e['challengeAuthCommentId'];
                     const comment = e['comment'];
-                    const userId = e['userId'];
+                    const nickname = e['nickname'];
                     const postId = e['challengeAuthId'];
 
 
@@ -254,7 +254,7 @@
             <div class="d-flex flex-row comment-row m-t-0">
 
               <div class="comment-text w-100">
-                <h6 class="font-medium">${userId}</h6> <span class="m-b-15 d-block">${comment}</span>
+                <h6 class="font-medium">${nickname}</h6> <span class="m-b-15 d-block">${comment}</span>
                 <div class="comment-footer"> <span class="text-muted float-right">${year}/${month}/${date}/${hour}:${min}</span>
                   <button class="btn btn-cyan btn-sm edit patch_btn" data-toggle="modal" data-target="#editEmployeeModal" id="${commentId}"><i data-toggle="tooltip" title="Edit">수정</i></button>
                   <button onclick="deleteComment()" type="button" id= "${commentId}" class="btn btn-danger btn-sm delete_btn">삭제</button>
