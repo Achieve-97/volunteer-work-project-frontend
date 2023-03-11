@@ -175,11 +175,7 @@
 
     
   </div>
-  <style>
-    #signout-btn {
-      display: none;
-    }
-  </style>
+
 
   <script src="js/jquery-3.3.1.min.js"></script>
   <script src="js/jquery-ui.js"></script>
@@ -191,18 +187,44 @@
 
   <script src="js/main.js"></script>
   <script>
-    function checkLoginStatus() {
+  $(window.document).ready(function() {
+    userprofile();
 
+     // 로그아웃 버튼 초기화: 로그인되어 있으면 보이고, 그렇지 않으면 숨김
+  if (localStorage.getItem('userId')) {
+    $('#signout-btn').show();
+  } else {
+    $('#signout-btn').hide();
     }
-    function toggleSignoutButton() {
-      const button = document.getElementsById('signout-btn');
-      if(checkLoginStatus()) {
-        button.style.display = 'block';
-      }else{
-        button.style.display = 'none';
-      }
-    }
-    window.onload = toggleSignoutButton;
+  });
+
+  function userprofile() {
+    $.ajax({
+      type: "GET",
+      url: "http://localhost:8080/mypage/profiles",
+      data: {},
+      headers: {
+        "Authorization": localStorage.getItem('accessToken')
+      },
+      success: function (response) {
+        const e = (response['data'])
+        $('#userId').text(e['userId'])
+        $('#nickname').text(e['nickname'])
+        $('#phoneNumber').text(e['phoneNumber'])
+        $('#interestArea').text(e['interestArea'])
+        $('#image').attr("src", e['image'])
+        console.log(response)
+
+        // userId가 있는 경우 로그아웃 버튼 보이기
+        if (e['userId']) {
+          localStorage.setItem('userId', e['userId']);
+          $('#signout-btn').show();
+        } else {
+          // userId가 없는 경우 로그아웃 버튼 숨기기
+          $('#signout-btn').hide();
+        }
+      },
+  })}
   </script>
 
     
