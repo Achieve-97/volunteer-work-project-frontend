@@ -1032,12 +1032,12 @@
             console.log(response)
 
             //유저 role 확인
-            if (e['userRoleEnum'] === 'COMPANY' || e['userRoleEnum'] === 'ADMIN') {
-              $('#update-btn').show();
-              $('#delete-btn').show();
-            } else {
+            if (e['userRoleEnum'] !== 'COMPANY') {
               $('#update-btn').hide();
               $('#delete-btn').hide();
+            } else {
+              $('#update-btn').show();
+              $('#delete-btn').show();
             }
     
             if (e['userId']) {
