@@ -160,12 +160,9 @@
         //인증글 조회
         $(window.document).ready(function () {
             getChallengeAuth();
-        })
-        $(window.document).ready(function () {
             getComments();
         })
-
-    
+ 
         function getChallengeAuth() {
             const id = document.location.href.split("=")[1];
             $.ajax({
@@ -279,7 +276,6 @@
         };
 
         // 댓글 작성
-
         $(document).on('click', '#createComment', function () {
             const id = document.location.href.split("=")[1];
 
