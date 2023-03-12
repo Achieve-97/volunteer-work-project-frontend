@@ -999,10 +999,10 @@
         if (localStorage.getItem('accessToken')) {
           userprofile();
         } else {
-          $('#enrollment-btn').hide();
-          $('#enrollmentList-btn').hide();
-          $('#update-btn').hide();
-          $('#delete-btn').hide();
+          // $('#enrollment-btn').hide();
+          // $('#enrollmentList-btn').hide();
+          // $('#update-btn').hide();
+          // $('#delete-btn').hide();
         }
     
         if (localStorage.getItem('userId')) {
@@ -1028,7 +1028,7 @@
             $('#nickname').text(e['nickname'])
             $('#phoneNumber').text(e['phoneNumber'])
             $('#interestArea').text(e['interestArea'])
-            $('#image').attr("src", e['image'])
+            // $('#image').attr("src", e['image'])
             console.log(response)
 
             //유저 role 확인
