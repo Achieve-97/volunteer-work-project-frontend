@@ -458,17 +458,9 @@ function userprofile() {
     headers: {
       "Authorization": localStorage.getItem('accessToken')
     },
-    success: function (response) {
-      const e = (response['data'])
-      $('#userId').text(e['userId'])
-      $('#nickname').text(e['nickname'])
-      $('#phoneNumber').text(e['phoneNumber'])
-      $('#interestArea').text(e['interestArea'])
-      $('#image').attr("src", e['image'])
-      console.log(response)
-
+    success: function (data) {
       // userId의 role에 따라 로그아웃 버튼 보이기
-      if (e['userRoleEnum'] === 'ADMIN') {
+      if (data['userRoleEnum'] === 'ADMIN') {
         $('#admin-btn').show();
       } else {
         $('#admin-btn').hide();
