@@ -47,9 +47,9 @@
                   <li><a><span id="loginUser"></span></a></li>
                   <li><a href="/login.html"><span class="icon icon-person"></span></a></li>
                   </li> 
-                  <li><a href="/mypage.html"><span>MyPage</span></a></li>
+                  <li><a href="/mypage.html" id="mypage-btn"><span>MyPage</span></a></li>
                   <li class="d-inline-block d-md-none ml-md-0"><a href="#" class="site-menu-toggle js-menu-toggle"><span class="icon-menu"></span></a></li>
-                  <button type="button" class="submit" onclick="signout()">로그아웃</button>
+                  <button type="button" class="submit" onclick="signout()" id="signout-btn">로그아웃</button>
                 </ul>
               </div> 
             </div>
@@ -126,5 +126,18 @@
   <script src="js/main.js"></script>
     
   </body>
+  <script>
+    $(window.document).ready(function() {
+      //마이페이지 로그아웃 버튼 숨기기
+      if (localStorage.getItem('userId')) {
+        $('#signout-btn').show();
+        $('#mypage-btn').show();
+      } else {
+        $('#signout-btn').hide();
+        $('#mypage-btn').hide();
+      }
+    });
+    </script>
+  
 
 </html>

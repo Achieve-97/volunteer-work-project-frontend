@@ -47,11 +47,11 @@
                             <div class="site-top-icons">
                                 <ul>
                                     <li><a href="#"><span class="icon icon-person"></span></a></li>
-                                    <li><a href="/mypage.html"><span>MyPage</span></a></li>
+                                    <li><a href="/mypage.html" id="mypage-btn"><span>MyPage</span></a></li>
                                     <li class="d-inline-block d-md-none ml-md-0"><a href="#"
                                             class="site-menu-toggle js-menu-toggle"><span class="icon-menu"></span></a>
                                     </li>
-                                    <button type="button" class="submit" onclick="signout()">로그아웃</button>
+                                    <button type="button" class="submit" onclick="signout()" id="signout-btn">로그아웃</button>
                                 </ul>
                             </div>
                         </div>
@@ -160,10 +160,9 @@
         //게시글 +댓글 조회
         $(window.document).ready(function () {
             getChallengeAuth();
-        })
-        $(window.document).ready(function () {
             getComments();
         })
+    
 
 
         function getChallengeAuth() {
@@ -350,11 +349,46 @@
                 window.location.reload();
             });
         }
-
-
-
-
     </script>
+        <script>
+            $(window.document).ready(function() {
+              if (localStorage.getItem('accessToken')) {
+                userprofile();
+              } 
+          
+              if (localStorage.getItem('userId')) {
+                $('#update-btn').show();
+                $('#delete-btn').show();
+                $('#signout-btn').show();
+                $('#mypage-btn').show();
+              } else {
+                $('#update-btn').hide();
+                $('#delete-btn').show();
+                $('#signout-btn').show();
+                $('#mypage-btn').hide();
+              }
+            });
+          
+            function userprofile() {
+              $.ajax({
+                type: "GET",
+                url: "http://localhost:8080/mypage/profiles",
+                data: {},
+                headers: {
+                  "Authorization": localStorage.getItem('accessToken')
+                },
+                success: function (response) {
+                  const e = (response['data'])
+                  $('#userId').text(e['userId'])
+                  $('#nickname').text(e['nickname'])
+                  $('#phoneNumber').text(e['phoneNumber'])
+                  $('#interestArea').text(e['interestArea'])
+                  $('#image').attr("src", e['image'])
+                  console.log(response)
+                },
+              })
+            }
+              </script>
 
 
 </body>

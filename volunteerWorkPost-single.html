@@ -50,10 +50,10 @@
                   <li><a><span id="loginUser"></span></a></li>
                   <li><a href="/login.html"><span class="icon icon-person"></span></a></li>
                   </li>
-                  <li><a href="/mypage.html"><span>MyPage</span></a></li>
+                  <li><a href="/mypage.html" id="mypage-btn"><span>MyPage</span></a></li>
                   <li class="d-inline-block d-md-none ml-md-0"><a href="#" class="site-menu-toggle js-menu-toggle"><span
                         class="icon-menu"></span></a></li>
-                  <button type="button" class="submit" onclick="signout()">로그아웃</button>
+                  <button type="button" class="submit" onclick="signout()" id="signout-btn">로그아웃</button>
                 </ul>
               </div>
             </div>
@@ -129,7 +129,7 @@
 
           </div>
           <!-- <p><a type="button" class="buy-now btn btn-sm btn-primary" onclick="enrollment()">참여 신청</a></p>    -->
-          <button class="button" data-for="js_basic-popup">참여 신청</button>
+          <button class="button" data-for="js_basic-popup" id="enrollment-btn">참여 신청</button>
           <div class="popup js_basic-popup">
             <div class="popup__background"></div>
             <div class="popup__content">
@@ -147,7 +147,7 @@
             </div>
           </div>
 
-          <button class="button" data-for="js_basic-popup2" onclick="getEnrollmentListOnClick()">참여 신청 조회</button>
+          <button class="button" data-for="js_basic-popup2" onclick="getEnrollmentListOnClick()" id="enrollmentList-btn">참여 신청 조회</button>
           <div class="popup js_basic-popup2">
             <div class="popup__background"></div>
             <div class="popup__content">
@@ -174,8 +174,8 @@
           </div>
 
           <tr>
-            <th><a type="button" class="buy-now btn btn-sm btn-primary" onclick="updatePost()">수정</a></th>
-            <th><a type="button" class="buy-now btn btn-sm btn-primary" onclick="deletePost()">삭제</a></th>
+            <th><a type="button" class="buy-now btn btn-sm btn-primary" onclick="updatePost()" id="update-btn">수정</a></th>
+            <th><a type="button" class="buy-now btn btn-sm btn-primary" onclick="deletePost()" id="delete-btn">삭제</a></th>
           <tr>
 
 
@@ -993,14 +993,64 @@
         window.location.reload();
       });
     });
-
-
-
-
-
-
   </script>
+    <script>
+      $(window.document).ready(function() {
+        if (localStorage.getItem('accessToken')) {
+          userprofile();
+        } else {
+          $('#enrollment-btn').hide();
+          $('#enrollmentList-btn').hide();
+          $('#update-btn').hide();
+          $('#delete-btn').hide();
+        }
+    
+        if (localStorage.getItem('userId')) {
+          $('#signout-btn').show();
+          $('#mypage-btn').show();
+        } else {
+          $('#signout-btn').hide();
+          $('#mypage-btn').hide();
+        }
+      });
+    
+      function userprofile() {
+        $.ajax({
+          type: "GET",
+          url: "http://localhost:8080/mypage/profiles",
+          data: {},
+          headers: {
+            "Authorization": localStorage.getItem('accessToken')
+          },
+          success: function (response) {
+            const e = (response['data'])
+            $('#userId').text(e['userId'])
+            $('#nickname').text(e['nickname'])
+            $('#phoneNumber').text(e['phoneNumber'])
+            $('#interestArea').text(e['interestArea'])
+            $('#image').attr("src", e['image'])
+            console.log(response)
 
+            //유저 role 확인
+            if (e['userRoleEnum'] === 'USER') {
+              $('#update-btn').hide();
+              $('#delete-btn').hide();
+            } else {
+              $('#update-btn').show();
+              $('#delete-btn').show();
+            }
+    
+            if (e['userId']) {
+              localStorage.setItem('userId', e['userId']);
+            }
+          },
+          error: function() {
+            $('#update-btn').hide();
+            $('#delete-btn').hide();
+          }
+        })
+      }
+        </script>
 </body>
 
 </body>

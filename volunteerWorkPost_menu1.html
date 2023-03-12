@@ -48,10 +48,10 @@
                 <ul>
                   <li><a><span id="loginUser"></span></a></li>
                   <li><a href="/login.html"><span class="icon icon-person"></span></a></li>
-                  <li><a href="/mypage.html"><span>MyPage</span></a></li>
+                  <li><a href="/mypage.html" id="mypage-btn"><span>MyPage</span></a></li>
                   <li class="d-inline-block d-md-none ml-md-0"><a href="#" class="site-menu-toggle js-menu-toggle"><span
                         class="icon-menu"></span></a></li>
-                  <button type="button" class="submit" onclick="signout()">로그아웃</button>
+                  <button type="button" class="submit" onclick="signout()" id="signout-btn">로그아웃</button>
                 </ul>
               </div>
             </div>
@@ -100,7 +100,7 @@
                 </div>
                 <div class="d-flex">
                   <div class="dropdown mr-1 ml-md-auto">
-                    <button type="button" class="btn btn-secondary" aria-haspopup="true" aria-expanded="false">
+                    <button type="button" class="btn btn-secondary" aria-haspopup="true" aria-expanded="false" id="create-btn">
                       <a href="volunteerWorkPostCreate.html">게시글 등록하기</a>
                     </button>
                   </div>
@@ -204,6 +204,60 @@
     }
 
   </script>
+    <script>
+      $(window.document).ready(function() {
+        //로그인 시  등록버튼 보이게
+        if (localStorage.getItem('accessToken')) {
+          userprofile();
+        } else {
+          $('#create-btn').hide();
+        }
+    
+        //마이페이지 로그아웃 버튼 숨기기
+        if (localStorage.getItem('userId')) {
+          $('#signout-btn').show();
+          $('#mypage-btn').show();
+        } else {
+          $('#signout-btn').hide();
+          $('#mypage-btn').hide();
+        }
+      });
+    
+      function userprofile() {
+        $.ajax({
+          type: "GET",
+          url: "http://localhost:8080/mypage/profiles",
+          data: {},
+          headers: {
+            "Authorization": localStorage.getItem('accessToken')
+          },
+          success: function (response) {
+            const e = (response['data'])
+            $('#userId').text(e['userId'])
+            $('#nickname').text(e['nickname'])
+            $('#phoneNumber').text(e['phoneNumber'])
+            $('#interestArea').text(e['interestArea'])
+            $('#image').attr("src", e['image'])
+            console.log(response)
+    
+            // 유저롤에 따라 버튼 보이게
+            if (e['userRoleEnum'] === 'USER') {
+              $('#create-btn').hide();
+            } else {
+              $('#create-btn').show();
+            }
+    
+            
+            if (e['userId']) {
+              localStorage.setItem('userId', e['userId']);
+            }
+          },
+          error: function() {
+            $('#create-btn').hide();
+          }
+        })
+      }
+        </script>
 
 </body>
 

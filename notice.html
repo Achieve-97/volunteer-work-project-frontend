@@ -47,9 +47,9 @@
                 <ul>
                   <li><a><span id="loginUser"></span></a></li>
                   <li><a href="/login.html"><span class="icon icon-person"></span></a></li>
-                  <li><a href="/mypage.html"><span>MyPage</span></a></li>
+                  <li><a href="/mypage.html" id="mypage-btn"><span>MyPage</span></a></li>
                   <li class="d-inline-block d-md-none ml-md-0"><a href="#" class="site-menu-toggle js-menu-toggle"><span class="icon-menu"></span></a></li>
-                  <button type="button" class="submit" onclick="signout()">로그아웃</button>
+                  <button type="button" class="submit" onclick="signout()" id="signout-btn">로그아웃</button>
                 </ul>
               </div> 
             </div>
@@ -97,7 +97,7 @@
                     <h2><b>공지사항</b></h2>
                   </div>
                   <div class="col-sm-6">
-                    <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><span>공지사항 작성</span></a>
+                    <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal" id="admin-btn"><span>공지사항 작성</span></a>
                     					
                   </div>
                 </div>
@@ -446,6 +446,55 @@ $(document).on('click', 'a[data-notice-id]', function() {
   });
 });
 
+$(window.document).ready(function() {
+    // 로그인 아니면 버튼 숨김
+    if (localStorage.getItem('accessToken')) {
+      userprofile();
+    } else {
+      $('#create-btn').hide();
+    }
+
+    if (localStorage.getItem('userId')) {
+      $('#signout-btn').show();
+      $('#mypage-btn').show();
+    } else {
+      $('#signout-btn').hide();
+      $('#mypage-btn').hide();
+    }
+  });
+
+$(window.document).ready(function() {
+  userprofile();
+})
+function userprofile() {
+  $.ajax({
+    type: "GET",
+    url: "http://localhost:8080/mypage/profiles",
+    data: {},
+    headers: {
+      "Authorization": localStorage.getItem('accessToken')
+    },
+    success: function (response) {
+      const e = (response['data'])
+      $('#userId').text(e['userId'])
+      $('#nickname').text(e['nickname'])
+      $('#phoneNumber').text(e['phoneNumber'])
+      $('#interestArea').text(e['interestArea'])
+      $('#image').attr("src", e['image'])
+      console.log(response)
+
+      // userId의 role에 따라 로그아웃 버튼 보이기
+      if (e['userRoleEnum'] === 'ADMIN') {
+        $('#admin-btn').show();
+      } else {
+        $('#admin-btn').hide();
+      }
+    },
+    error: function() {
+      $('#admin-btn').hide();
+    }
+  })
+}
 </script>
 
 
