@@ -157,14 +157,12 @@
     <script src="js/main.js"></script>
 
     <script>
-        //게시글 +댓글 조회
+        //인증글 조회
         $(window.document).ready(function () {
             getChallengeAuth();
             getComments();
         })
-    
-
-
+ 
         function getChallengeAuth() {
             const id = document.location.href.split("=")[1];
             $.ajax({
@@ -184,12 +182,14 @@
                 },
             })
         }
+        //인증글 수정 
         function updatePage() {
             const id = document.location.href.split("=")[1]
             window.location.href = '/challenge-auth-create.html?id=' + id
 
         }
 
+        //인증글 삭제 
         function deleteChallengeAuth() {
             const id = document.location.href.split("=")[1];
             const settings = {
@@ -206,7 +206,7 @@
             });
         }
 
-        //조회
+        //댓글 조회
         function getComments() {
             const id = document.location.href.split("=")[1];
             console.log(id)
@@ -221,7 +221,7 @@
 
             $.ajax(settings).done(function (response) {
                 const obj = response['data'];
-                console.log(response);
+               
                 for (let i = 0; i < obj.length; i++) {
                     const e = obj[i];
                     const commentId = e['challengeAuthCommentId'];
@@ -276,7 +276,6 @@
         };
 
         // 댓글 작성
-
         $(document).on('click', '#createComment', function () {
             const id = document.location.href.split("=")[1];
 
