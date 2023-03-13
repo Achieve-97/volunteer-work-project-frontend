@@ -114,7 +114,7 @@
         <div class="area-write">
             <textarea class="field" placeholder="댓글을 입력하세요." name="comment" id="comment" cols="80" rows="1"></textarea>
         </div>
-        <button type="button" class="btn btn-success btn-sm" id="createComment">작성</button>
+        <button type="button" class="btn btn-success btn-sm" id="createComment" onclick="createComment()">작성</button>
     </div>
     <!-- <div id="comment-box"></div> -->
 
@@ -267,16 +267,15 @@
                           `;
 
           $('#comment-box').append(temp_html);
-          $('#patch_comments')
+          $('#patch_comment')
 
                 }
             });
         }
 
         // 댓글 작성
-        $(document).on('click', '#createComment', function () {
+        function createComment() {
             const id = document.location.href.split("=")[1];
-
             const settings = {
                 "url": "https://api.volunteering.store/challenge-auth/" + id + "/challengeAuthComments",
                 "method": "POST",
@@ -294,7 +293,9 @@
                 alert('댓글을 작성하였습니다.');
                 window.location.reload();
             });
-        });
+}
+
+        
 
         let id2;
 
@@ -320,8 +321,8 @@
           console.log(e)
           for (let index = 0; index < e.length; index++) {
             const obj = e[index];
-            if (commentId === obj['commentId']) {
-              $('#patch_comments').attr('value', obj['comments'])
+            if (challengeAuthCommentId === obj['challengeAuthCommentId']) {
+              $('#patch_comment').attr('value', obj['comment'])
 
             }
           }
