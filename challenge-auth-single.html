@@ -177,6 +177,8 @@
                     $('#title').text(e['title'])
                     $('#content').text(e['content'])
                     $('#image').attr('src', e['image'])
+
+
                 },
             })
         }
@@ -222,7 +224,7 @@
                
                 for (let i = 0; i < obj.length; i++) {
                     const e = obj[i];
-                    const commentId = e['challengeAuthCommentId'];
+                    const challengeAuthCommentId = e['challengeAuthCommentId'];
                     const comment = e['comment'];
                     const nickname = e['nickname'];
                     const postId = e['challengeAuthId'];
@@ -237,7 +239,7 @@
                     const hour = comment_date.getHours();
                     const min = comment_date.getMinutes();
 
-                    console.log(commentId);
+              
 
                     const temp_html = `
           <div class="row d-flex justify-content-center mt-100 mb-100">
@@ -251,8 +253,8 @@
               <div class="comment-text w-100">
                 <h6 class="font-medium">${nickname}</h6> <span class="m-b-15 d-block">${comment}</span>
                 <div class="comment-footer"> <span class="text-muted float-right">${year}/${month}/${date}/${hour}:${min}</span>
-                  <button class="btn btn-cyan btn-sm edit patch_btn" data-toggle="modal" data-target="#editEmployeeModal" id="${commentId}"><i data-toggle="tooltip" title="Edit">수정</i></button>
-                  <button onclick="deleteComment()" type="button" id= "${commentId}" class="btn btn-danger btn-sm delete_btn">삭제</button>
+                    <button class="btn btn-cyan btn-sm edit" id2=${challengeAuthCommentId} data-toggle="modal" data-target="#editEmployeeModal" onclick="getComments(${challengeAuthCommentId})"><i data-toggle="tooltip" title="Edit">수정</i></button>
+                  <button onclick="deleteComment()" type="button" id= "${challengeAuthCommentId}" class="btn btn-danger btn-sm delete_btn">삭제</button>
                 </div>
               </div>
             </div> <!-- Comment Row -->
@@ -307,10 +309,10 @@
         //  댓글 수정
         function updateComment() {
             const id = document.location.href.split("=")[1];
-            const commentId = $(".patch_btn").attr("id");
+            const challengeAuthCommentId = $(".patch_btn").attr("id");
 
             const settings = {
-                "url": "https://api.volunteering.store/challenge-auth/" + id + "/challengeAuthComment/" + commentId,
+                "url": "https://api.volunteering.store/challenge-auth/" + id + "/challengeAuthComment/" + challengeAuthCommentId,
                 "method": "PATCH",
                 "timeout": 0,
                 "headers": {
@@ -331,9 +333,9 @@
 
         function deleteComment() {
             const id = document.location.href.split("=")[1];
-            const commentId = $(".delete_btn").attr("id");
+            const challengeAuthCommentId = $(".delete_btn").attr("id");
             const settings = {
-                "url": "https://api.volunteering.store/challenge-auth/" + id + "/challengeAuthComments/" + commentId,
+                "url": "https://api.volunteering.store/challenge-auth/" + id + "/challengeAuthComments/" + challengeAuthCommentId,
                 "method": "DELETE",
                 "timeout": 0,
                 "headers": {
@@ -342,7 +344,7 @@
             };
 
             $.ajax(settings).done(function (response) {
-                alert('챌린지를 삭제하였습니다.')
+                alert('댓글을 삭제하였습니다.')
                 window.location.reload();
             });
         }
