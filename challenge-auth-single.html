@@ -227,7 +227,7 @@
                     const challengeAuthCommentId = e['challengeAuthCommentId'];
                     const comment = e['comment'];
                     const nickname = e['nickname'];
-                    const postId = e['challengeAuthId'];
+                    const challengeAuthId = e['challengeAuthId'];
 
 
 
@@ -242,34 +242,32 @@
               
 
                     const temp_html = `
-          <div class="row d-flex justify-content-center mt-100 mb-100">
-      <div class="col-lg-6">
-        <div class="card">
-          
-          <div class="comment-widgets">
-            <!-- Comment Row -->
-            <div class="d-flex flex-row comment-row m-t-0">
+                    <div class="row d-flex justify-content-center mt-100 mb-100">
+        <div class="col-lg-6">
+          <div class="card">
+            
+            <div class="comment-widgets">
+              <!-- Comment Row -->
+              <div class="d-flex flex-row comment-row m-t-0">
 
-              <div class="comment-text w-100">
-                <h6 class="font-medium">${nickname}</h6> <span class="m-b-15 d-block">${comment}</span>
-                <div class="comment-footer"> <span class="text-muted float-right">${year}/${month}/${date}/${hour}:${min}</span>
+                <div class="comment-text w-100">
+                  <h6 class="font-medium">${nickname}</h6> <span class="m-b-15 d-block">${comment}</span>
+                  <div class="comment-footer"> <span class="text-muted float-right">${year}/${month}/${date}/${hour}:${min}</span>
                     <button class="btn btn-cyan btn-sm edit" id2=${challengeAuthCommentId} data-toggle="modal" data-target="#editEmployeeModal" onclick="getComments(${challengeAuthCommentId})"><i data-toggle="tooltip" title="Edit">수정</i></button>
-                  <button onclick="deleteComment()" type="button" id= "${challengeAuthCommentId}" class="btn btn-danger btn-sm delete_btn">삭제</button>
+                    <button id="deleteComment" type="button" data-id2= ${challengeAuthCommentId}  class="btn btn-danger btn-sm">삭제</button>
+                  </div>
                 </div>
-              </div>
-            </div> <!-- Comment Row -->
-          </div> <!-- Card -->
+              </div> <!-- Comment Row -->
+            </div> <!-- Card -->
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-                        `;
+                          `;
 
-
-                    $('#comment-box').append(temp_html);
-                    console.log($('#comment-box'));
-                    $('patch_comment')
+          $('#comment-box').append(temp_html);
+          $('#patch_comments')
 
                 }
             });
