@@ -114,7 +114,7 @@
         <div class="area-write">
             <textarea class="field" placeholder="댓글을 입력하세요." name="comment" id="comment" cols="80" rows="1"></textarea>
         </div>
-        <button type="button" class="btn btn-success btn-sm" id="createComment" onclick="createComment()">작성</button>
+        <button type="button" class="btn btn-success btn-sm" id="createComment">작성</button>
     </div>
     <!-- <div id="comment-box"></div> -->
 
@@ -227,7 +227,7 @@
                     const challengeAuthCommentId = e['challengeAuthCommentId'];
                     const comment = e['comment'];
                     const nickname = e['nickname'];
-                    const challengeAuthId = e['challengeAuthId'];
+                    const postId = e['challengeAuthId'];
 
 
 
@@ -242,40 +242,43 @@
               
 
                     const temp_html = `
-                    <div class="row d-flex justify-content-center mt-100 mb-100">
-        <div class="col-lg-6">
-          <div class="card">
-            
-            <div class="comment-widgets">
-              <!-- Comment Row -->
-              <div class="d-flex flex-row comment-row m-t-0">
+          <div class="row d-flex justify-content-center mt-100 mb-100">
+      <div class="col-lg-6">
+        <div class="card">
+          
+          <div class="comment-widgets">
+            <!-- Comment Row -->
+            <div class="d-flex flex-row comment-row m-t-0">
 
-                <div class="comment-text w-100">
-                  <h6 class="font-medium">${nickname}</h6> <span class="m-b-15 d-block">${comment}</span>
-                  <div class="comment-footer"> <span class="text-muted float-right">${year}/${month}/${date}/${hour}:${min}</span>
-                    <button class="btn btn-cyan btn-sm edit" id2=${challengeAuthCommentId} data-toggle="modal" data-target="#editEmployeeModal" onclick="getComment(${challengeAuthCommentId})"><i data-toggle="tooltip" title="Edit">수정</i></button>
-                    <button id="deleteComment" type="button" data-id2= ${challengeAuthCommentId}  class="btn btn-danger btn-sm">삭제</button>
-                  </div>
+              <div class="comment-text w-100">
+                <h6 class="font-medium">${nickname}</h6> <span class="m-b-15 d-block">${comment}</span>
+                <div class="comment-footer"> <span class="text-muted float-right">${year}/${month}/${date}/${hour}:${min}</span>
+                    <button class="btn btn-cyan btn-sm edit" id2=${challengeAuthCommentId} data-toggle="modal" data-target="#editEmployeeModal" onclick="getComments(${challengeAuthCommentId})"><i data-toggle="tooltip" title="Edit">수정</i></button>
+                  <button onclick="deleteComment()" type="button" id= "${challengeAuthCommentId}" class="btn btn-danger btn-sm delete_btn">삭제</button>
                 </div>
-              </div> <!-- Comment Row -->
-            </div> <!-- Card -->
-          </div>
+              </div>
+            </div> <!-- Comment Row -->
+          </div> <!-- Card -->
         </div>
       </div>
     </div>
+  </div>
 
-                          `;
+                        `;
 
-          $('#comment-box').append(temp_html);
-          $('#patch_comment')
+
+                    $('#comment-box').append(temp_html);
+                    console.log($('#comment-box'));
+                    $('patch_comment')
 
                 }
             });
         }
 
         // 댓글 작성
-        function createComment() {
+        $(document).on('click', '#createComment', function () {
             const id = document.location.href.split("=")[1];
+
             const settings = {
                 "url": "https://api.volunteering.store/challenge-auth/" + id + "/challengeAuthComments",
                 "method": "POST",
@@ -293,9 +296,7 @@
                 alert('댓글을 작성하였습니다.');
                 window.location.reload();
             });
-}
-
-        
+        });
 
         let id2;
 
@@ -303,32 +304,6 @@
             id2 = $(this).attr('id2');
             console.log(id2)
         });
-
-    //  댓글을 수정합니다.
-    // 수정 버튼을 클릭했을 때 기존 댓글을 가져와야 함.->버튼에 onclick="getComment()"
-
-    function getComment(challengeAuthCommentId) {
-      const id = document.location.href.split("=")[1];
-      $.ajax({
-        type: "GET",
-        url: "https://api.volunteering.store/volunteerWorkPosts/" + id + "/comments",
-        data: {},
-        headers: {
-          "Authorization": localStorage.getItem('accessToken')
-        },
-        success: function (response) {
-          const e = (response['data'])
-          console.log(e)
-          for (let index = 0; index < e.length; index++) {
-            const obj = e[index];
-            if (challengeAuthCommentId === obj['challengeAuthCommentId']) {
-              $('#patch_comment').attr('value', obj['comment'])
-
-            }
-          }
-        },
-      })
-    }
 
 
         //  댓글 수정
